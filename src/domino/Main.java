@@ -47,7 +47,7 @@ public class Main extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 solve();
-                JOptionPane.showMessageDialog(null,print(bestchain));
+                JOptionPane.showMessageDialog(null,print(bestchain)+"\n"+steps(list,bestchain));
                 dispose();
             }
         });
@@ -154,6 +154,19 @@ public class Main extends JFrame {
             str = str + chains.get(i).toString() + " ";
         }
         str = str + "\nNumbers of board: " + chains.size();
+        return str;
+    }
+
+    public static String steps(LinkedList<Domino> list, LinkedList<Domino> best) {
+        String str = "Step 0 : " + best.get(0) + "\n";
+        for(int i = 1; i < best.size(); i++) {
+            str = str + "Step " + (i) + " : ";
+            final int temp = i;
+            if(list.stream().anyMatch((item) -> item.getHigh() == best.get(temp).getHigh() && item.getLow() == best.get(temp).getLow())){
+                str = str + best.get(i) + " insert to left";
+            } else str = str + best.get(i).flip() + " insert to right( use flip )";
+            str += "\n";
+        }
         return str;
     }
 
